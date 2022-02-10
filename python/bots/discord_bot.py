@@ -183,7 +183,7 @@ class DiscordClient(discord.ext.commands.Bot):
     @tasks.loop(seconds=0.1, reconnect=True)
     async def set_presence(self):
         if self.status_text:
-            await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
+            await self.change_presence(activity=discord.Activity(type=discord.ActivityType.playing,
                                                                  name=self.status_text))
             logging.info(f'Bot status changed to {self.status_text}')
             self.status_text = ''

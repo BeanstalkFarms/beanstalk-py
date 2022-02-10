@@ -216,7 +216,7 @@ class PreviewMonitor(Monitor):
     def __init__(self, name_function, status_function):
         super().__init__('Price', status_function,
                          PRICE_CHECK_PERIOD, prod=True, dry_run=False)
-        self.STATUS_DISPLAYS_COUNT = 3
+        self.STATUS_DISPLAYS_COUNT = 4
         self.HOURS = 24
         self.bean_graph_client = BeanSqlClient()
         self.beanstalk_graph_client = BeanstalkSqlClient()
@@ -261,6 +261,10 @@ class PreviewMonitor(Monitor):
                 if self.status_display_index == 2:
                     self.status_function(
                         f'{round_num(sum(mints), 0)} Minted - {self.HOURS}hr')
+            if self.status_display_index == 3:
+                pods_harvested = self.beanstalk_graph_client.current_season_stat('harvestedPods')
+                self.status_function(
+                    f'{round_num(pods_harvested, 0)} Harvested - Ever')
 
 
 class SunriseMonitor(Monitor):
