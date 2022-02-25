@@ -1041,9 +1041,40 @@ class MarketMonitor(Monitor):
         # elif event_log.event == 'PodOrderCancelled':
         return event_str
 
+class DataCompiler():
+    """Handles data calculations when data must be derived from multiple different sources."""
+
+    def __init__(self):
+        self._web3 = eth_chain.get_web3_instance()
+        self.bean_client = eth_chain.BeanClient(self._web3)
+        self.bean_contract = eth_chain.get_bean_contract(self._web3)
+        self.beanstalk_contract = eth_chain.get_beanstalk_contract(self._web3)
+        self.eth_usdc_uni_contract = eth_chain.get_eth_usdc_pool_contract(self._web3)
+        self.eth_bean_uni_contract = eth_chain.get_eth_bean_pool_contract(self._web3)
+        self.bean_3crv_curve_contract = eth_chain.get_bean_3crv_pool_contract(self._web3)
+    
+    def get_user_bean_balance(adddress):
+        """Get total current user Bean balance in the protocol.
+        
+        Calculation:
+        depositedBeans (subgraph) +
+        withdrawnBeans (contract) +
+        claimableBeans (subgraph) +
+        wrappedBeans (contract) +
+        harvestableBeans (subgraph)
+        """
+
+    def get_user_lp_balance(address):
+        """Get total current user LP balance.
+
+        Calculation:
+        depositedLP (subgraph)
+        """
+
+    def get_user_pod_balance(address):
 
 class MsgHandler(logging.Handler):
-    """A handler class which sends a message on a text channel."""
+    """A logging handler class which sends a message on a text channel."""
     def __init__(self, message_function):
         """
         Initialize the handler.
