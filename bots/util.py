@@ -489,7 +489,7 @@ class UniswapPoolMonitor(Monitor):
         for event_log in event_logs:
             event_str = UniswapPoolMonitor.any_event_str(
                 event_log, self.uniswap_client.current_eth_price(),
-                self.bean_client.avg_bean_price())
+                self.bean_client.uniswap_v2_bean_price())
             if event_str:
                 self.message_function(event_str)
 
@@ -580,7 +580,7 @@ class CurvePoolMonitor(Monitor):
         """
         for event_log in event_logs:
             event_str = CurvePoolMonitor.any_event_str(
-                event_log, self.bean_client.avg_bean_price())
+                event_log, self.bean_client.curve_bean_price())
             if event_str:
                 self.message_function(event_str)
 
