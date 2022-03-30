@@ -398,7 +398,7 @@ class SunriseMonitor(Monitor):
             ret_string += f'\n📤 {round_num(withdrawn_bean_lp)} Beans and {round_num(withdrawn_eth_lp)} ETH of LP withdrawn'
             ret_string += f'\n\n🚜 {round_num(newPods / (1 + last_weather/100))} Beans sown'
             ret_string += f'\n🌾 {round_num(newPods)} Pods minted'
-            ret_string += f'\n{round_num(newSoil)} soil now available' if newSoil else f'\nNo new soil available'
+            ret_string += f'\n🏞🏜 {round_num(newSoil)} soil now available' if newSoil else f'\nNo new soil available'
             ret_string += '\n_ _'  # empty line that does not get stripped
         else:
             ret_string += f'\n\n📥 {round_num(float(last_season_stats["newDepositedBeans"]) + deposited_bean_lp * 2)} Beans worth of Deposits'
