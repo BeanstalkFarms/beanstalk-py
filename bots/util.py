@@ -295,27 +295,28 @@ class SunriseMonitor(Monitor):
         # Read-only access to self.channel_to_wallets, which may be modified by other threads.
         self.channel_to_wallets = channel_to_wallets
         self.beanstalk_graph_client = BeanstalkSqlClient()
+        self.beanstalk_client = eth_chain.BeanstalkClient()
         self.bean_client = eth_chain.BeanClient()
         # Most recent season processed. Do not initialize.
         self.current_season_id = None
 
     def _monitor_method(self):
         while self._thread_active:
-            # Wait until the eligible for a sunrise.
-            self._wait_until_expected_sunrise()
-            # Once the sunrise is complete, get the season stats.
-            current_season_stats, last_season_stats = self._block_and_get_seasons_stats()
-            # Report season summary to users.
-            if current_season_stats:
-                self.message_function(self.season_summary_string(
-                    last_season_stats, current_season_stats, short_str=self.short_msgs))
-            if self.channel_to_wallets:
-                self.update_all_wallet_watchers()
+            # # Wait until the eligible for a sunrise.
+            # self._wait_until_expected_sunrise()
+            # # Once the sunrise is complete, get the season stats.
+            # current_season_stats, last_season_stats = self._block_and_get_seasons_stats()
+            # # Report season summary to users.
+            # if current_season_stats:
+            #     self.message_function(self.season_summary_string(
+            #         last_season_stats, current_season_stats, short_str=self.short_msgs))
+            # if self.channel_to_wallets:
+            #     self.update_all_wallet_watchers()
 
-            # # For testing.
-            # current_season_stats, last_season_stats = self.beanstalk_graph_client.seasons_stats()
-            # self.message_function(self.season_summary_string(last_season_stats, current_season_stats, short_str=self.short_msgs))
-            # time.sleep(5)
+            # For testing.
+            current_season_stats, last_season_stats = self.beanstalk_graph_client.seasons_stats()
+            self.message_function(self.season_summary_string(last_season_stats, current_season_stats, short_str=self.short_msgs))
+            time.sleep(5)
 
     def _wait_until_expected_sunrise(self):
         """Wait until beanstalk is eligible for a sunrise call.
